@@ -1,4 +1,4 @@
-package com.company;
+package torsteinb.model;
 
 import java.util.Arrays;
 
