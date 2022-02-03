@@ -1,5 +1,7 @@
 package torsteinb.controller;
 
+import torsteinb.model.Player;
+
 import java.util.Scanner;
 
 public class ConsoleCommunication {
@@ -20,21 +22,50 @@ public class ConsoleCommunication {
 
 
     private void startGame(){
-        System.out.println("Do you want to play a game of chess? Y/N:");
+        System.out.println("Do you want to play a game of Tic-Tac-Toe? Y/N:");
         String answer = waitForInput();
         if(answer.equals("Y")) {
             controller.startGame();
-            controller.printBoard();
             nextMove();
         }
         else{
-            System.out.println("Why not, are you scared? ");
+            System.out.println("You have no choice =)");
             controller.startGame();
+            nextMove();
         }
     }
 
     private void nextMove(){
+        controller.printBoard();
+        int[] moveArray;
+        String currentMove;
+        if(controller.isPlayerOneTurn()){
+            System.out.println("Player One, make your move: ");
+        }
+        else {
+            System.out.println("Player Two, make your move: ");
+        }
+        currentMove = waitForInput();
+        moveArray = controller.interpreter(currentMove);
+        validateMove(moveArray);
+    }
 
+    private void validateMove(int[] moveArray){
+
+        if(controller.validMove(moveArray)){
+            if(controller.isPlayerOneTurn()) {
+                controller.placePiece(moveArray, controller.getPlayerOne());
+                controller.setPlayerOneTurn(false);
+            }
+            else{
+                controller.placePiece(moveArray, controller.getPlayerTwo());
+                controller.setPlayerOneTurn(true);
+            }
+        }
+        else{
+            System.out.println("That's not a valid move. Try again");
+        }
+    nextMove();
     }
 
 
